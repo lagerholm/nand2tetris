@@ -22,7 +22,7 @@ class Parser
 	
 	// Member functions
 	bool hasMoreCommands();
-	bool advance();
+	void advance();
 	commandType commandType();
 	std::string symbol();
 	std::string dest();

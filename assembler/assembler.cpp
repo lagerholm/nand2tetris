@@ -4,9 +4,17 @@
 
 int main()
 {
+	bool moreCommands = true;
 	Parser parser("add.asm");
 	
-	while(parser.hasMoreCommands());
-	
+	while(moreCommands)
+	{
+		moreCommands = parser.hasMoreCommands();
+		if(moreCommands)
+		{
+			parser.advance();
+		}
+	}
+		
 	return 0;
 }
