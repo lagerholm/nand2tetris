@@ -4,11 +4,9 @@
 
 int main()
 {
-	std::cout << "Hello world!" << std::endl;
+	Parser parser("add.asm");
 	
-	Parser parser;
-	parser.printHello();
-	
+	while(parser.hasMoreCommands());
 	
 	return 0;
 }
