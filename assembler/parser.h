@@ -13,8 +13,8 @@ enum commandType
 class Parser
 {
 	std::ifstream inputFile;
+	bool hasMoreCmds;
 	std::string currentCommand;
-	std::string lastReadLine;
 	
 	public:
 	// Constructor

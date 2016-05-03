@@ -4,42 +4,46 @@
 
 using namespace std;
 
-Parser::Parser(string input):inputFile(input.c_str()){}
+Parser::Parser(string input):inputFile(input.c_str()), hasMoreCmds(true){}
 
 bool Parser::hasMoreCommands()
 {
-	bool retVal = false;
-	bool commandFound = false;
+	return hasMoreCmds;
+}
+
+void Parser::advance()
+{
+	hasMoreCmds = false;
 	
 	if(inputFile.is_open())
 	{
-		while (!commandFound)
+		while (!hasMoreCmds)
 		{
-			if(getline(inputFile, lastReadLine))
+			if(getline(inputFile, currentCommand))
 			{
-				cout << lastReadLine << endl;
-				if(lastReadLine.empty())
+				cout << currentCommand << endl;
+				if(currentCommand.empty())
 				{
 					cout << "  White space" << endl;
 				}
-				else if(lastReadLine.find("//") == 0)	// Lock for comment
+				else if(currentCommand.find("//") == 0)	// Lock for comment
 				{
 					cout << "  Comment" << endl;
 				}
 				else
 				{
-					commandFound = true;
-					retVal = true;
+					hasMoreCmds = true;
 				}
 			}
 			else if(inputFile.eof())
 			{
-				retVal = false;
+				currentCommand = "";
 				cout << "End of file!" << endl;
 				break;
 			}
 			else
 			{
+				currentCommand = "";
 				cout << "Error when reading from file" << endl;
 				break;
 			}
@@ -50,11 +54,4 @@ bool Parser::hasMoreCommands()
 		cout << "No file was open!" << endl;
 	}
 	
-	return retVal;
-}
-
-void Parser::advance()
-{
-	currentCommand = lastReadLine;
-	cout << "Currcommand: " + currentCommand << endl;
 }
