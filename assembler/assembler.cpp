@@ -14,7 +14,12 @@ int main()
 		{
 			parser.advance();
 			std::cout << parser.currentCommand << std::endl;
-			std::cout << parser.commandType() << std::endl;
+			commandType_e cmdType = parser.commandType();
+			std::cout << "  " << cmdType << std::endl;
+			if((cmdType == A_COMMAND) || (cmdType == L_COMMAND))
+			{
+				std::cout << "    " << parser.symbol() << std::endl;
+			}
 		}
 	}
 		

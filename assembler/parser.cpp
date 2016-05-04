@@ -77,3 +77,20 @@ commandType_e Parser::commandType()
 	}
 	return retVal;
 }
+
+string Parser::symbol()
+{
+	string retVal = currentCommand;
+	
+	if(commandType() == A_COMMAND)
+	{
+			retVal.erase(retVal.begin());
+	}
+	else if(commandType() == L_COMMAND)
+	{
+			retVal.erase(retVal.begin());
+			retVal.erase(retVal.end()-1);
+	}
+	
+	return retVal;
+}
