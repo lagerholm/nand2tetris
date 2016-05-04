@@ -21,14 +21,14 @@ void Parser::advance()
 		{
 			if(getline(inputFile, currentCommand))
 			{
-				cout << currentCommand << endl;
+				//cout << currentCommand << endl;
 				if(currentCommand.empty())
 				{
-					cout << "  White space" << endl;
+					//cout << "  White space" << endl;
 				}
 				else if(currentCommand.find("//") == 0)	// Lock for comment
 				{
-					cout << "  Comment" << endl;
+					//cout << "  Comment" << endl;
 				}
 				else
 				{
@@ -54,4 +54,26 @@ void Parser::advance()
 		cout << "No file was open!" << endl;
 	}
 	
+}
+
+commandType_e Parser::commandType()
+{
+	commandType_e retVal = NO_COMMAND;
+	
+	// Look for a command.
+	if(currentCommand.find("@") == 0)
+	{
+		retVal = A_COMMAND;
+	}
+	// Look for c command.
+	if(currentCommand.find("=") != string::npos)
+	{
+		retVal = C_COMMAND;
+	}
+	// Look for l command.
+	if(currentCommand.find("(") == 0)
+	{
+		retVal = L_COMMAND;
+	}
+	return retVal;
 }

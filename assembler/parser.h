@@ -3,18 +3,23 @@
 #include <fstream>
 #include <string>
 
-enum commandType 
+enum commandType_e 
 {
 	A_COMMAND,
 	C_COMMAND,
-	L_COMMAND
+	L_COMMAND,
+	NO_COMMAND
 };
 
 class Parser
 {
+	public:
+	std::string currentCommand;
+
+	private:
 	std::ifstream inputFile;
 	bool hasMoreCmds;
-	std::string currentCommand;
+	//std::string currentCommand;
 	
 	public:
 	// Constructor
@@ -23,7 +28,7 @@ class Parser
 	// Member functions
 	bool hasMoreCommands();
 	void advance();
-	commandType commandType();
+	commandType_e commandType();
 	std::string symbol();
 	std::string dest();
 	std::string comp();

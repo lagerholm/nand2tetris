@@ -13,6 +13,8 @@ int main()
 		if(moreCommands)
 		{
 			parser.advance();
+			std::cout << parser.currentCommand << std::endl;
+			std::cout << parser.commandType() << std::endl;
 		}
 	}
 		
