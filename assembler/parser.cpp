@@ -94,3 +94,10 @@ string Parser::symbol()
 	
 	return retVal;
 }
+
+string Parser::dest()
+{
+	string retVal = currentCommand;
+	
+	return retVal.substr(0, retVal.find("="));
+}

@@ -20,6 +20,10 @@ int main()
 			{
 				std::cout << "    " << parser.symbol() << std::endl;
 			}
+			else if(cmdType == C_COMMAND)
+			{
+				std::cout << "    " << parser.dest() << std::endl;
+			}
 		}
 	}
 		
