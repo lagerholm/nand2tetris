@@ -13,15 +13,12 @@ enum commandType_e
 
 class Parser
 {
-	public:
-	std::string currentCommand;
-
-	private:
 	std::ifstream inputFile;
 	bool hasMoreCmds;
-	//std::string currentCommand;
 	
 	public:
+	std::string currentCommand;
+	
 	// Constructor
 	Parser(std::string);
 	

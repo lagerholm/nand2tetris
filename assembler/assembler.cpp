@@ -1,11 +1,13 @@
 #include <iostream>
 
 #include "parser.h"
+#include "code.h"
 
 int main()
 {
 	bool moreCommands = true;
 	Parser parser("add.asm");
+	Code code;
 	
 	while(moreCommands)
 	{
@@ -22,9 +24,10 @@ int main()
 			}
 			else if(cmdType == C_COMMAND)
 			{
-				std::cout << "    " << parser.dest() << std::endl;
-				std::cout << "      " << parser.comp() << std::endl;
-				std::cout << "        " << parser.jump() << std::endl;
+				std::cout << "    " << code.dest(parser.dest()) << std::endl;
+				//std::cout << "    " << parser.dest() << std::endl;
+				//std::cout << "      " << parser.comp() << std::endl;
+				//std::cout << "        " << parser.jump() << std::endl;
 			}
 		}
 	}
