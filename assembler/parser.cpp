@@ -66,7 +66,7 @@ commandType_e Parser::commandType()
 		retVal = A_COMMAND;
 	}
 	// Look for c command.
-	if(currentCommand.find("=") != string::npos)
+	if((currentCommand.find("=") != string::npos) || (currentCommand.find(";") != string::npos))
 	{
 		retVal = C_COMMAND;
 	}
@@ -98,15 +98,31 @@ string Parser::symbol()
 string Parser::dest()
 {
 	string retVal = currentCommand;
+	if(retVal.find("=") != string::npos)
+	{
+		retVal = retVal.substr(0, retVal.find("="));
+	}
+	else 
+	{
+		retVal = "";
+	}
 	
-	return retVal.substr(0, retVal.find("="));
+	return retVal;
 }
 
 string Parser::comp()
 {
 	string retVal = currentCommand;
+	if(retVal.find("=") != string::npos)
+	{
+		retVal = retVal.substr(retVal.find("=") + 1, retVal.find(";") - 2);
+	}
+	else
+	{
+		retVal = retVal.substr(0, retVal.find(";"));
+	}
 	
-	return retVal.substr(retVal.find("=") + 1, retVal.find(";") - 2);
+	return retVal;
 }
 
 string Parser::jump()
