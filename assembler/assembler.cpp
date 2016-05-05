@@ -25,7 +25,8 @@ int main()
 			else if(cmdType == C_COMMAND)
 			{
 				//std::cout << "    " << code.dest(parser.dest()) << std::endl;
-				std::cout << "      " << code.comp(parser.comp()) << std::endl;
+				//std::cout << "      " << code.comp(parser.comp()) << std::endl;
+				std::cout << "      " << code.jump(parser.jump()) << std::endl;
 				//std::cout << "    " << parser.dest() << std::endl;
 				//std::cout << "      " << parser.comp() << std::endl;
 				//std::cout << "        " << parser.jump() << std::endl;

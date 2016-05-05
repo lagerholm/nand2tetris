@@ -49,6 +49,19 @@ enum compMnemonic
 	COMP_NO_MNEMONIC
 };
 
+enum jumpMnemonic 
+{
+	JUMP_NULL,
+	JUMP_JGT,
+	JUMP_JEQ,
+	JUMP_JGE,
+	JUMP_JLT,
+	JUMP_JNE,
+	JUMP_JLE,
+	JUMP_JMP,
+	JUMP_NO_MNEMONIC
+};
+
 namespace {
 	destMnemonic hashDest(string const& dest)
 	{
@@ -95,6 +108,19 @@ namespace {
 		if (comp == "D&M") 	return COMP_D_AND_M;
 		if (comp == "D|M") 	return COMP_D_OR_M;
 		return COMP_NO_MNEMONIC;        
+	}
+	
+	jumpMnemonic hashJump(string const& jump)
+	{
+		if (jump == "") 	return JUMP_NULL;
+		if (jump == "JGT") 	return JUMP_JGT;
+		if (jump == "JEQ") 	return JUMP_JEQ;
+		if (jump == "JGE") 	return JUMP_JGE;
+		if (jump == "JLT") 	return JUMP_JLT;
+		if (jump == "JNE") 	return JUMP_JNE;
+		if (jump == "JLE") 	return JUMP_JLE;
+		if (jump == "JMP") 	return JUMP_JMP;
+		return JUMP_NO_MNEMONIC;   
 	}
 }   
 
@@ -227,6 +253,43 @@ string Code::comp(string comp)
 		break;
 	case COMP_NULL:
 	case COMP_NO_MNEMONIC:
+	default:
+		break;
+	}
+	return retVal;
+}
+
+string Code::jump(string jump)
+{
+	string retVal = "";
+	
+	switch(hashJump(jump))
+	{
+	case JUMP_NULL:
+		retVal = "000";
+		break;
+	case JUMP_JGT:
+		retVal = "001";
+		break;
+	case JUMP_JEQ:
+		retVal = "010";
+		break;
+	case JUMP_JGE:
+		retVal = "011";
+		break;
+	case JUMP_JLT:
+		retVal = "100";
+		break;
+	case JUMP_JNE:
+		retVal = "101";
+		break;
+	case JUMP_JLE:
+		retVal = "110";
+		break;
+	case JUMP_JMP:
+		retVal = "111";
+		break;
+	case JUMP_NO_MNEMONIC:
 	default:
 		break;
 	}
