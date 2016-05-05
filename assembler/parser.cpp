@@ -89,7 +89,7 @@ string Parser::symbol()
 	else if(commandType() == L_COMMAND)
 	{
 			retVal.erase(retVal.begin());
-			retVal.erase(retVal.end()-1);
+			retVal.erase(retVal.end() - 1);
 	}
 	
 	return retVal;
@@ -100,4 +100,25 @@ string Parser::dest()
 	string retVal = currentCommand;
 	
 	return retVal.substr(0, retVal.find("="));
+}
+
+string Parser::comp()
+{
+	string retVal = currentCommand;
+	
+	return retVal.substr(retVal.find("=") + 1, retVal.find(";") - 2);
+}
+
+string Parser::jump()
+{
+	string retVal = currentCommand;
+	size_t found = retVal.find(";");
+	if(found != string::npos)
+	{
+		return retVal.substr(found + 1, retVal.length() - 1);
+	}
+	else 
+	{
+		return "";
+	}
 }
