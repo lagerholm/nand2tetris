@@ -12,9 +12,9 @@ using std::ofstream;
 int main()
 {
 	bool moreCommands = true;
-	Parser parser("asm/PongL.asm");
-	ofstream outFile("PongL.hack");
-	Code code;
+	Parser parser("asm/Max.asm");
+	ofstream outFile("Max.hack");
+	//Code code;
 	string output;
 	
 	while(moreCommands)
@@ -23,33 +23,34 @@ int main()
 		moreCommands = parser.hasMoreCommands();
 		if(moreCommands)
 		{
-			//std::cout << parser.currentCommand << std::endl;
+			std::cout << std::endl << parser.currentCommand << std::endl;
 			commandType_e cmdType = parser.commandType();
 			//std::cout << cmdType << std::endl;
 			if(cmdType == A_COMMAND)
 			{
-				output = "0" + bitset<15>(std::stoi(parser.symbol(),nullptr,10)).to_string();
-				//std::cout << "    " << parser.symbol() << std::endl;
+				//output = "0" + bitset<15>(std::stoi(parser.symbol(),nullptr,10)).to_string();
+				std::cout << "@: " << parser.symbol() << std::endl;
 			}
 			else if (cmdType == L_COMMAND)
 			{
-				std::cout << "Not supported yet" << std::endl;
+				std::cout << "(): " << parser.symbol() << std::endl;
 			}
 			else if(cmdType == C_COMMAND)
 			{
-				output = "111" + code.comp(parser.comp()) + code.dest(parser.dest()) + code.jump(parser.jump());
+				//output = "111" + code.comp(parser.comp()) + code.dest(parser.dest()) + code.jump(parser.jump());
 				//std::cout << " " << code.dest(parser.dest()) << std::endl;
 				//std::cout << "  " << code.comp(parser.comp()) << std::endl;
 				//std::cout << "   " << code.jump(parser.jump()) << std::endl;
-				//std::cout << " " << parser.dest() << std::endl;
-				//std::cout << "  " << parser.comp() << std::endl;
-				//std::cout << "   " << parser.jump() << std::endl;
+				std::cout << "Dest: " << parser.dest() << std::endl;
+				std::cout << "Comp: " << parser.comp() << std::endl;
+				std::cout << "Jump: " << parser.jump() << std::endl;
 			}
 			
 			if(outFile.is_open())
 			{
-				std::cout << output << std::endl;
-				outFile << output << "\n";
+				//std::cout << output << std::endl;
+				//outFile << output << "\n";
+				outFile << parser.currentCommand << "\n";
 			}
 			else
 			{
