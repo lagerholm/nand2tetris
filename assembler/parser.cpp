@@ -8,6 +8,7 @@ Parser::Parser(string input):inputFile(input.c_str()), hasMoreCmds(true){}
 
 bool Parser::hasMoreCommands()
 {
+
 	return hasMoreCmds;
 }
 
