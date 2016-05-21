@@ -106,7 +106,7 @@ string Parser::symbol()
 	if(commandType() == A_COMMAND)
 	{
 			retVal.erase(retVal.begin());
-			cout << retVal << endl;
+			//cout << retVal << endl;
 	}
 	else if(commandType() == L_COMMAND)
 	{
@@ -159,4 +159,10 @@ string Parser::jump()
 	{
 		return "";
 	}
+}
+
+void Parser::resetInputFile()
+{
+	inputFile.clear();
+	inputFile.seekg(0, inputFile.beg);
 }
