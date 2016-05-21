@@ -22,16 +22,8 @@ void Parser::advance()
 		{
 			if(getline(inputFile, currentCommand))
 			{
-				//cout << currentCommand << endl;
-				if(currentCommand.empty())
-				{
-					//cout << "  White space" << endl;
-				}
-				else if(currentCommand.find("//") == 0)	// Lock for starting comment
-				{
-					//cout << "  Comment" << endl;
-				}
-				else
+				// Look for non white space and non comment line.
+				if(!currentCommand.empty() && !(currentCommand.find("//") == 0))
 				{
 					hasMoreCmds = true;
 					// Trim the command.
@@ -54,7 +46,6 @@ void Parser::advance()
 						currentCommand.erase(found + 1);
 					}
 				}
-				
 			}
 			else if(inputFile.eof())
 			{
@@ -106,7 +97,6 @@ string Parser::symbol()
 	if(commandType() == A_COMMAND)
 	{
 			retVal.erase(retVal.begin());
-			//cout << retVal << endl;
 	}
 	else if(commandType() == L_COMMAND)
 	{
