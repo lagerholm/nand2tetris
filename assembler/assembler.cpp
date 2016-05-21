@@ -85,8 +85,24 @@ int main()
 				// Look if number.
 				if(symbol.find_first_not_of("0123456789") != std::string::npos)
 				{	// Not a number.
-					// Look if label.
-					if(symbol.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_") != std::string::npos)
+					if(!symbolTable.contains(symbol))
+					{
+						symbolTable.addEntry(symbol, ramAddress);
+						ramAddress++;
+					}
+					if(symbolTable.contains(symbol))
+					{
+						symbol = std::to_string(symbolTable.getAddress(symbol));
+						std::cout << "Variable: " << symbol << std::endl;
+					}
+					else{
+						std::cout << "No such symbol: " << symbol << std::endl;
+					}
+					
+					
+					
+					
+					/*if(symbol.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_") != std::string::npos)
 					{	// Not a label.
 						// Look if variable.
 						if(symbol.find_first_not_of("abcdefghijklmnopqrstuvwxyz0123456789_.") != std::string::npos)
@@ -122,7 +138,7 @@ int main()
 						else{
 							std::cout << "No such symbol: " << symbol << std::endl;
 						}
-					}
+					}*/
 				}
 				output = "0" + bitset<15>(std::stoi(symbol,nullptr,10)).to_string();
 			}
