@@ -10,17 +10,26 @@ using std::string;
 using std::bitset;
 using std::ofstream;
 
-int main()
+int main(int argc, char* argv[])
 {
 	bool moreCommands = true;
-	Parser parser("asm/Pong.asm");
-	ofstream outFile("Pong.hack");
 	Code code;
 	SymbolTable symbolTable;
 	int romAddress = 0;
 	int ramAddress = 16;
 	string output;
-	
+
+	// Check input.
+	if (argc != 3 )
+	{
+		std::cout << "Usage: " << argv[0] << " <.asm input file> <.hack output file>" << std::endl;
+
+		return 1;
+	}
+
+	Parser parser(argv[1]);
+	ofstream outFile(argv[2]);
+
 	// First pass.
 	while(moreCommands)
 	{
