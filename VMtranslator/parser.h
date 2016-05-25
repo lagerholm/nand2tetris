@@ -5,17 +5,20 @@
 
 enum commandType_e 
 {
-	A_COMMAND,
-	C_COMMAND,
-	L_COMMAND,
+	C_ARITHMETIC,
+	C_PUSH,
+	C_POP,
+	C_LABEL,
+	C_GOTO,
+	C_IF,
+	C_FUNCTION,
+	C_RETURN,
+	C_CALL,
 	NO_COMMAND
 };
 
 class Parser
 {
-	std::ifstream inputFile;
-	bool hasMoreCmds;
-	
 	public:
 	std::string currentCommand;
 	
@@ -26,5 +29,12 @@ class Parser
 	bool hasMoreCommands();
 	void advance();
 	commandType_e commandType();
+	std::string arg1(void);
+	int arg2(void);
 	void resetInputFile();
+	
+	private:
+	std::ifstream inputFile;
+	bool hasMoreCmds;
+	bool isArithmeticCommand();
 };
