@@ -22,8 +22,8 @@ void Parser::advance()
 		{
 			if(getline(inputFile, currentCommand))
 			{
-				// Look for non white space and non comment line.
-				if(!currentCommand.empty() && !(currentCommand.find("//") == 0))
+				// Look for non white space, non comment line and non line break.
+				if(!currentCommand.empty() && !(currentCommand.find("//") == 0) && (currentCommand[0] != '\r'))
 				{
 					hasMoreCmds = true;
 					// Trim the command.
@@ -45,8 +45,12 @@ void Parser::advance()
 					{
 						currentCommand.erase(found + 1);
 					}
-					
-					cout << currentCommand << endl;
+
+					//cout << currentCommand << endl;
+				}
+				else
+				{
+					cout << "NO COMMAND: " << currentCommand << endl;
 				}
 			}
 			else if(inputFile.eof())
@@ -67,7 +71,6 @@ void Parser::advance()
 	{
 		cout << "No file was open!" << endl;
 	}
-	
 }
 
 commandType_e Parser::commandType()
