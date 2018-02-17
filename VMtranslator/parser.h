@@ -36,5 +36,5 @@ class Parser
 	private:
 	std::ifstream inputFile;
 	bool hasMoreCmds;
-	bool isArithmeticCommand();
+	bool isArithmeticCommand(std::string);
 };

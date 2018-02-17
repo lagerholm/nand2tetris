@@ -50,7 +50,7 @@ void Parser::advance()
 				}
 				else
 				{
-					cout << "NO COMMAND: " << currentCommand << endl;
+					//cout << "NO COMMAND: " << currentCommand << endl;
 				}
 			}
 			else if(inputFile.eof())
@@ -77,7 +77,7 @@ commandType_e Parser::commandType()
 {
 	commandType_e retVal = NO_COMMAND;
 	
-	if(isArithmeticCommand())
+	if(isArithmeticCommand(currentCommand))
 	{
 		retVal = C_ARITHMETIC;
 	}
@@ -129,16 +129,21 @@ string Parser::arg1(void)
 	string delimiter = " ";
 	
 	size_t pos = 0;
-	string argument;
-	while ((pos = s.find(delimiter)) != string::npos)
+	string argument = s;
+	if((pos = s.find(delimiter)) != string::npos)
 	{
 		argument = s.substr(0, pos);
-		cout << argument << " : " << s << endl;
-		s.erase(0, pos+delimiter.length());
-		cout << argument << " : " << s << endl;
 	}
-	cout << argument << " : " << s <<  endl;
 	
+	if(!isArithmeticCommand(argument))
+	{
+		s.erase(0, pos + 1);
+		if((pos = s.find(delimiter)) != string::npos)
+		{
+			argument = s.substr(0, pos);
+		}
+	}
+
 	return argument;
 }
 
@@ -147,43 +152,43 @@ int Parser::arg2(void)
 	return 0;
 }
 
-bool Parser::isArithmeticCommand()
+bool Parser::isArithmeticCommand(std::string command)
 {
 	bool retVal = false;
 	
-	if(currentCommand.find("add") == 0)
+	if(command.find("add") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("sub") == 0)
+	else if(command.find("sub") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("neg") == 0)
+	else if(command.find("neg") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("eq") == 0)
+	else if(command.find("eq") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("gt") == 0)
+	else if(command.find("gt") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("lt") == 0)
+	else if(command.find("lt") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("and") == 0)
+	else if(command.find("and") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("or") == 0)
+	else if(command.find("or") == 0)
 	{
 		retVal = true;
 	}
-	else if(currentCommand.find("not") == 0)
+	else if(command.find("not") == 0)
 	{
 		retVal = true;
 	}

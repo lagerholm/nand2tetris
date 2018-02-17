@@ -19,7 +19,11 @@ int main(int argc, char* argv[])
 		if(moreCommands)
 		{
 			std::cout << parser.commandType() << std::endl;
-			parser.arg1();
+			if(parser.commandType() != C_RETURN)
+			{
+				string s = parser.arg1();
+				std::cout << "parser.arg1() = " << s << std::endl;
+			}
 		}
 	}
 	return 0;
