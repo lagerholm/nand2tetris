@@ -45,8 +45,8 @@ void Parser::advance()
 					{
 						currentCommand.erase(found + 1);
 					}
-
-					//cout << currentCommand << endl;
+					cout << currentCommand << endl;
+					findArguments(currentCommand);
 				}
 				else
 				{
@@ -125,31 +125,12 @@ void Parser::resetInputFile()
 
 string Parser::arg1(void)
 {
-	string s = currentCommand;
-	string delimiter = " ";
-	
-	size_t pos = 0;
-	string argument = s;
-	if((pos = s.find(delimiter)) != string::npos)
-	{
-		argument = s.substr(0, pos);
-	}
-	
-	if(!isArithmeticCommand(argument))
-	{
-		s.erase(0, pos + 1);
-		if((pos = s.find(delimiter)) != string::npos)
-		{
-			argument = s.substr(0, pos);
-		}
-	}
-
-	return argument;
+	return argument1;
 }
 
 int Parser::arg2(void)
 {
-	return 0;
+	return argument2;
 }
 
 bool Parser::isArithmeticCommand(std::string command)
@@ -194,4 +175,25 @@ bool Parser::isArithmeticCommand(std::string command)
 	}
 	
 	return retVal;
+}
+
+void Parser::findArguments(std::string s)
+{
+	string delimiter = " ";
+	
+	size_t pos = 0;
+	argument1 = s;
+	if((pos = s.find(delimiter)) != string::npos)
+	{
+		argument1 = s.substr(0, pos);
+	}
+	
+	if(!isArithmeticCommand(argument1))
+	{
+		s.erase(0, pos + 1);
+		if((pos = s.find(delimiter)) != string::npos)
+		{
+			argument1 = s.substr(0, pos);
+		}
+	}
 }

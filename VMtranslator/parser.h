@@ -20,8 +20,6 @@ enum commandType_e
 class Parser
 {
 	public:
-	std::string currentCommand;
-	
 	// Constructor
 	Parser(std::string);
 	
@@ -34,7 +32,11 @@ class Parser
 	void resetInputFile();
 	
 	private:
+	std::string currentCommand;
 	std::ifstream inputFile;
+	std::string argument1;
+	int argument2;
 	bool hasMoreCmds;
 	bool isArithmeticCommand(std::string);
+	void findArguments(std::string);
 };
