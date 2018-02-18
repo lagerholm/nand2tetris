@@ -21,8 +21,13 @@ int main(int argc, char* argv[])
 			std::cout << parser.commandType() << std::endl;
 			if(parser.commandType() != C_RETURN)
 			{
-				string s = parser.arg1();
-				std::cout << "parser.arg1() = " << s << std::endl;
+				string arg1 = parser.arg1();
+				std::cout << "parser.arg1() = " << arg1 << std::endl;
+				if(parser.commandType() == (C_PUSH || C_POP || C_FUNCTION || C_CALL))
+				{
+					int arg2 = parser.arg2();
+					std::cout << "parser.arg2() = " << arg2 << std::endl;
+				}
 			}
 		}
 	}

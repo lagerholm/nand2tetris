@@ -45,7 +45,7 @@ void Parser::advance()
 					{
 						currentCommand.erase(found + 1);
 					}
-					cout << currentCommand << endl;
+					
 					findArguments(currentCommand);
 				}
 				else
@@ -195,5 +195,6 @@ void Parser::findArguments(std::string s)
 		{
 			argument1 = s.substr(0, pos);
 		}
+		argument2 = stoi(s.substr(pos, s.size()), nullptr, 0);
 	}
 }
