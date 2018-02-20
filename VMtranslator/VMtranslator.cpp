@@ -11,6 +11,8 @@ int main(int argc, char* argv[])
 	bool moreCommands = true;
 	
 	Parser parser("ProjectFiles/SimpleAdd/SimpleAdd.vm");
+	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
+	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
 	
 	while(moreCommands)
 	{
