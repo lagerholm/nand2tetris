@@ -2,9 +2,9 @@
 #include <string>
 
 #include "parser.h"
+#include "codewriter.hpp"
 
 using std::string;
-using std::ofstream;
 
 int main(int argc, char* argv[])
 {
@@ -14,6 +14,9 @@ int main(int argc, char* argv[])
 	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
 	
+	CodeWriter codeWriter("output");
+	codeWriter.close();
+
 	while(moreCommands)
 	{
 		parser.advance();
@@ -21,11 +24,11 @@ int main(int argc, char* argv[])
 		if(moreCommands)
 		{
 			std::cout << parser.commandType() << std::endl;
-			if(parser.commandType() != C_RETURN)
+			if(parser.commandType() != CommandType::C_RETURN)
 			{
 				string arg1 = parser.arg1();
 				std::cout << "parser.arg1() = " << arg1 << std::endl;
-				if(parser.commandType() == (C_PUSH || C_POP || C_FUNCTION || C_CALL))
+				if(parser.commandHasArg2())
 				{
 					int arg2 = parser.arg2();
 					std::cout << "parser.arg2() = " << arg2 << std::endl;

@@ -3,19 +3,7 @@
 #include <fstream>
 #include <string>
 
-enum commandType_e 
-{
-	C_ARITHMETIC,
-	C_PUSH,
-	C_POP,
-	C_LABEL,
-	C_GOTO,
-	C_IF,
-	C_FUNCTION,
-	C_RETURN,
-	C_CALL,
-	NO_COMMAND
-};
+#include "common.hpp"
 
 class Parser
 {
@@ -26,7 +14,8 @@ class Parser
 	// Member functions
 	bool hasMoreCommands();
 	void advance();
-	commandType_e commandType();
+	CommandType commandType();
+	bool commandHasArg2(void);
 	std::string arg1(void);
 	int arg2(void);
 	void resetInputFile();

@@ -73,45 +73,74 @@ void Parser::advance()
 	}
 }
 
-commandType_e Parser::commandType()
+CommandType Parser::commandType()
 {
-	commandType_e retVal = NO_COMMAND;
+	CommandType retVal = CommandType::NO_COMMAND;
 	
 	if(isArithmeticCommand(currentCommand))
 	{
-		retVal = C_ARITHMETIC;
+		retVal = CommandType::C_ARITHMETIC;
 	}
 	else if(currentCommand.find("push") == 0)
 	{
-		retVal = C_PUSH;
+		retVal = CommandType::C_PUSH;
 	}
 	else if(currentCommand.find("pop") == 0)
 	{
-		retVal = C_POP;
+		retVal = CommandType::C_POP;
 	}
 	else if(currentCommand.find("label") == 0)
 	{
-		retVal = C_LABEL;
+		retVal = CommandType::C_LABEL;
 	}
 	else if(currentCommand.find("goto") == 0)
 	{
-		retVal = C_GOTO;
+		retVal = CommandType::C_GOTO;
 	}
 	else if(currentCommand.find("if") == 0)
 	{
-		retVal = C_IF;
+		retVal = CommandType::C_IF;
 	}
 	else if(currentCommand.find("function") == 0)
 	{
-		retVal = C_FUNCTION;
+		retVal = CommandType::C_FUNCTION;
 	}
 	else if(currentCommand.find("return") == 0)
 	{
-		retVal = C_RETURN;
+		retVal = CommandType::C_RETURN;
 	}
 	else if(currentCommand.find("call") == 0)
 	{
-		retVal = C_CALL;
+		retVal = CommandType::C_CALL;
+	}
+
+	return retVal;
+}
+
+bool Parser::commandHasArg2(void)
+{
+	bool retVal = false;
+
+	switch(commandType())
+	{
+		case CommandType::C_PUSH:
+			retVal = true;
+			break;
+
+		case CommandType::C_POP:
+			retVal = true;
+			break;
+
+		case CommandType::C_FUNCTION:
+			retVal = true;
+			break;
+
+		case CommandType::C_CALL:
+			retVal = true;
+			break;
+
+		default:
+			break;
 	}
 
 	return retVal;
