@@ -14,8 +14,7 @@ int main(int argc, char* argv[])
 	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
 	
-	CodeWriter codeWriter("output");
-	codeWriter.close();
+	CodeWriter codeWriter("output.asm");
 
 	while(moreCommands)
 	{
@@ -23,18 +22,28 @@ int main(int argc, char* argv[])
 		moreCommands = parser.hasMoreCommands();
 		if(moreCommands)
 		{
-			std::cout << parser.commandType() << std::endl;
-			if(parser.commandType() != CommandType::C_RETURN)
+			CommandType commandType = parser.commandType();
+			string arg1 = "";
+			int arg2 = 0;
+
+			std::cout << commandType << std::endl;
+			if(commandType != CommandType::C_RETURN)
 			{
-				string arg1 = parser.arg1();
+				arg1 = parser.arg1();
 				std::cout << "parser.arg1() = " << arg1 << std::endl;
 				if(parser.commandHasArg2())
 				{
-					int arg2 = parser.arg2();
+					arg2 = parser.arg2();
 					std::cout << "parser.arg2() = " << arg2 << std::endl;
+				}
+				if ((commandType == CommandType::C_POP) || (commandType == CommandType::C_PUSH))
+				{
+					codeWriter.writePushPop(commandType, arg1, arg2);
 				}
 			}
 		}
 	}
+	
+	codeWriter.close();
 	return 0;
 }

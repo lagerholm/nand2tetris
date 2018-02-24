@@ -16,5 +16,7 @@ class CodeWriter
 	void close(void);
 
 	private:
+	void handlePushCommand(std::string segment, int index);
 	std::ofstream outputFile;
+	std::string currentFileName;
 };
