@@ -19,6 +19,7 @@ class Parser
 	std::string arg1(void);
 	int arg2(void);
 	void resetInputFile();
+	bool isCurrentCommandArithmetic(void);
 	
 	private:
 	std::string currentCommand;

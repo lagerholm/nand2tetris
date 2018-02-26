@@ -1,3 +1,4 @@
 assembler/assembler
 VMtranslator/VMtranslator
 VMtranslator/output
+VMtranslator/.DS_Store

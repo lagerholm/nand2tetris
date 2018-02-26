@@ -36,9 +36,15 @@ int main(int argc, char* argv[])
 					arg2 = parser.arg2();
 					std::cout << "parser.arg2() = " << arg2 << std::endl;
 				}
+
 				if ((commandType == CommandType::C_POP) || (commandType == CommandType::C_PUSH))
 				{
 					codeWriter.writePushPop(commandType, arg1, arg2);
+				}
+
+				if (parser.isCurrentCommandArithmetic())
+				{
+					codeWriter.writeArithmetic(arg1);
 				}
 			}
 		}

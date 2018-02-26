@@ -146,12 +146,6 @@ bool Parser::commandHasArg2(void)
 	return retVal;
 }
 
-void Parser::resetInputFile()
-{
-	inputFile.clear();
-	inputFile.seekg(0, inputFile.beg);
-}
-
 string Parser::arg1(void)
 {
 	return argument1;
@@ -160,6 +154,17 @@ string Parser::arg1(void)
 int Parser::arg2(void)
 {
 	return argument2;
+}
+
+bool Parser::isCurrentCommandArithmetic()
+{
+	return isArithmeticCommand(currentCommand);
+}
+
+void Parser::resetInputFile()
+{
+	inputFile.clear();
+	inputFile.seekg(0, inputFile.beg);
 }
 
 bool Parser::isArithmeticCommand(std::string command)
