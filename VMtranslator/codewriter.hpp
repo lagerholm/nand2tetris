@@ -22,9 +22,13 @@ class CodeWriter
 	void writeAdd(void);
 	void popStackValueToD(void);
 	void increaseStackPointer(void);
+	void decreaseStackPointer(void);
 	void storeDToLocation(std::string location);
 	void loadDFromLocation(std::string location);
-	void loadDfromAWithValue(int value);
-	void storeDToPointerLocation(std::string location);
+	void loadDFromAWithValue(int value);
+	void loadDFromPointer(void);
+	void storeDToPointerFromLocation(std::string location);
+	void storeDToPointer(void);
 	void addLocationWithD(std::string location);
+	void addPointerWithD(void);
 };
