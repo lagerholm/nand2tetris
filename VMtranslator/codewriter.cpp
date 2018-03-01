@@ -94,7 +94,6 @@ void CodeWriter::writeEq(void)
 void CodeWriter::writeLt(void)
 {
 	writeCompareCommand("JGT");	// JGT is due to how we read the stack.
-
 }
 
 void CodeWriter::writeGt(void)
