@@ -26,6 +26,10 @@ void CodeWriter::writeArithmetic(std::string command)
 	{
 		writeLt();
 	}
+	else if (command == "gt")
+	{
+		writeGt();
+	}
 }
 
 void CodeWriter::writePushPop(CommandType commandType, std::string segment, int index)
@@ -133,6 +137,40 @@ void CodeWriter::writeLt(void)
 	// Do jump if x was less then y.
 	std::string trueLabel(generateNewLabel());
 	jumpToLabel(trueLabel, "D", "JGT");	// JGT is due to how we read the stack.
+
+	// No jump store false.
+	storeToPointerFromLocation("SP", "0");	// 0 is false.
+
+	// Go to end.
+	std::string endLabel(generateNewLabel());
+	jumpToLabel(endLabel, "0", "JMP");
+
+	// Handle true label.
+	insertLabel(trueLabel);
+	storeToPointerFromLocation("SP", "-1");	// -1 is true.
+
+	// Handle end label.
+	insertLabel(endLabel);
+	increaseStackPointer();
+}
+
+void CodeWriter::writeGt(void)
+{
+		// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Put pointer value in D.
+	loadDFromPointer();
+
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Subtract D with value from pointer.
+	subtractDWithPointer();
+
+	// Do jump if x was greater then y.
+	std::string trueLabel(generateNewLabel());
+	jumpToLabel(trueLabel, "D", "JLT");	// JLT is due to how we read the stack.
 
 	// No jump store false.
 	storeToPointerFromLocation("SP", "0");	// 0 is false.

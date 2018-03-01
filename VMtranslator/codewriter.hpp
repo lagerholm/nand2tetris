@@ -23,6 +23,7 @@ class CodeWriter
 	void writeAdd(void);
 	void writeEq(void);
 	void writeLt(void);
+	void writeGt(void);
 	void popStackValueToD(void);
 	void increaseStackPointer(void);
 	void decreaseStackPointer(void);
