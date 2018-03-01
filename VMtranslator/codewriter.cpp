@@ -88,75 +88,23 @@ void CodeWriter::writeAdd(void)
 
 void CodeWriter::writeEq(void)
 {
-	// Decrease stack pointer.
-	decreaseStackPointer();
-
-	// Put pointer value in D.
-	loadDFromPointer();
-
-	// Decrease stack pointer.
-	decreaseStackPointer();
-
-	// Subtract D with value from pointer.
-	subtractDWithPointer();
-
-	// Do jump if x = y.
-	std::string trueLabel(generateNewLabel());
-	jumpToLabel(trueLabel, "D", "JEQ");
-
-	// No jump store false.
-	storeToPointerFromLocation("SP", "0");	// 0 is false.
-
-	// Go to end.
-	std::string endLabel(generateNewLabel());
-	jumpToLabel(endLabel, "0", "JMP");
-
-	// Handle true label.
-	insertLabel(trueLabel);
-	storeToPointerFromLocation("SP", "-1");	// -1 is true.
-
-	// Handle end label.
-	insertLabel(endLabel);
-	increaseStackPointer();
+	writeCompareCommand("JEQ");
 }
 
 void CodeWriter::writeLt(void)
 {
-	// Decrease stack pointer.
-	decreaseStackPointer();
+	writeCompareCommand("JGT");	// JGT is due to how we read the stack.
 
-	// Put pointer value in D.
-	loadDFromPointer();
-
-	// Decrease stack pointer.
-	decreaseStackPointer();
-
-	// Subtract D with value from pointer.
-	subtractDWithPointer();
-
-	// Do jump if x was less then y.
-	std::string trueLabel(generateNewLabel());
-	jumpToLabel(trueLabel, "D", "JGT");	// JGT is due to how we read the stack.
-
-	// No jump store false.
-	storeToPointerFromLocation("SP", "0");	// 0 is false.
-
-	// Go to end.
-	std::string endLabel(generateNewLabel());
-	jumpToLabel(endLabel, "0", "JMP");
-
-	// Handle true label.
-	insertLabel(trueLabel);
-	storeToPointerFromLocation("SP", "-1");	// -1 is true.
-
-	// Handle end label.
-	insertLabel(endLabel);
-	increaseStackPointer();
 }
 
 void CodeWriter::writeGt(void)
 {
-		// Decrease stack pointer.
+	writeCompareCommand("JLT");	// JLT is due to how we read the stack.
+}
+
+void CodeWriter::writeCompareCommand(std::string comparison)
+{
+	// Decrease stack pointer.
 	decreaseStackPointer();
 
 	// Put pointer value in D.
@@ -168,9 +116,9 @@ void CodeWriter::writeGt(void)
 	// Subtract D with value from pointer.
 	subtractDWithPointer();
 
-	// Do jump if x was greater then y.
+	// Do jump depening on comparion.
 	std::string trueLabel(generateNewLabel());
-	jumpToLabel(trueLabel, "D", "JLT");	// JLT is due to how we read the stack.
+	jumpToLabel(trueLabel, "D", comparison);
 
 	// No jump store false.
 	storeToPointerFromLocation("SP", "0");	// 0 is false.

@@ -24,6 +24,7 @@ class CodeWriter
 	void writeEq(void);
 	void writeLt(void);
 	void writeGt(void);
+	void writeCompareCommand(std::string comparion);
 	void popStackValueToD(void);
 	void increaseStackPointer(void);
 	void decreaseStackPointer(void);
