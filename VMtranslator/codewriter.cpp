@@ -101,11 +101,11 @@ void CodeWriter::writeEq(void)
 	std::string endLabel(generateNewLabel());
 	jumpToLabel(endLabel);
 
-	// Handle true lable.
+	// Handle true label.
 	insertLabel(trueLabel);
 	storeToPointerFromLocation("SP", "-1");	// -1 is true.
 
-	// Handle end lable.
+	// Handle end label.
 	insertLabel(endLabel);
 	increaseStackPointer();
 }
