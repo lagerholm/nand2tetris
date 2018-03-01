@@ -18,6 +18,14 @@ void CodeWriter::writeArithmetic(std::string command)
 	{
 		writeAdd();
 	}
+	else if (command == "sub")
+	{
+		writeSub();
+	}
+	else if (command == "neg")
+	{
+		writeNeg();
+	}
 	else if (command == "eq")
 	{
 		writeEq();
@@ -81,6 +89,39 @@ void CodeWriter::writeAdd(void)
 
 	// Add pointer with D.
 	addPointerWithD();
+
+	// Increase SP.
+	increaseStackPointer();
+}
+
+void CodeWriter::writeSub(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Store pointer value to D.
+	loadDFromPointer();
+
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Add pointer with D.
+	subtractPointerWithD();
+
+	// Increase SP.
+	increaseStackPointer();
+}
+
+void CodeWriter::writeNeg(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Store pointer value to D.
+	loadDFromPointer();
+
+	// Negate D and store to pointer.
+	storeToPointerFromLocation("SP", "-D");
 
 	// Increase SP.
 	increaseStackPointer();
@@ -202,6 +243,12 @@ void CodeWriter::addPointerWithD(void)
 {
 	pushLineToFile("A=M");
 	pushLineToFile("M=D+M");
+}
+
+void CodeWriter::subtractPointerWithD(void)
+{
+	pushLineToFile("A=M");
+	pushLineToFile("M=M-D");
 }
 
 void CodeWriter::subtractDWithPointer(void)
