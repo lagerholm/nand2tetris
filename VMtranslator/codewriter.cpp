@@ -22,6 +22,10 @@ void CodeWriter::writeArithmetic(std::string command)
 	{
 		writeEq();
 	}
+	else if (command == "lt")
+	{
+		writeLt();
+	}
 }
 
 void CodeWriter::writePushPop(CommandType commandType, std::string segment, int index)
@@ -91,15 +95,51 @@ void CodeWriter::writeEq(void)
 
 	// Subtract D with value from pointer.
 	subtractDWithPointer();
+
+	// Do jump if x = y.
 	std::string trueLabel(generateNewLabel());
-	jumpEqualsToLabel(trueLabel);
+	jumpToLabel(trueLabel, "D", "JEQ");
 
 	// No jump store false.
 	storeToPointerFromLocation("SP", "0");	// 0 is false.
 
 	// Go to end.
 	std::string endLabel(generateNewLabel());
-	jumpToLabel(endLabel);
+	jumpToLabel(endLabel, "0", "JMP");
+
+	// Handle true label.
+	insertLabel(trueLabel);
+	storeToPointerFromLocation("SP", "-1");	// -1 is true.
+
+	// Handle end label.
+	insertLabel(endLabel);
+	increaseStackPointer();
+}
+
+void CodeWriter::writeLt(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Put pointer value in D.
+	loadDFromPointer();
+
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Subtract D with value from pointer.
+	subtractDWithPointer();
+
+	// Do jump if x was less then y.
+	std::string trueLabel(generateNewLabel());
+	jumpToLabel(trueLabel, "D", "JGT");	// JGT is due to how we read the stack.
+
+	// No jump store false.
+	storeToPointerFromLocation("SP", "0");	// 0 is false.
+
+	// Go to end.
+	std::string endLabel(generateNewLabel());
+	jumpToLabel(endLabel, "0", "JMP");
 
 	// Handle true label.
 	insertLabel(trueLabel);
@@ -185,16 +225,13 @@ void CodeWriter::subtractDWithPointer(void)
 	pushLineToFile("D=D-M");
 }
 
-void CodeWriter::jumpEqualsToLabel(std::string label)
+void CodeWriter::jumpToLabel(std::string label, std::string compare, std::string jump)
 {
 	pushLineToFileWithLocation("@", label);
-	pushLineToFile("D;JEQ");
-}
-
-void CodeWriter::jumpToLabel(std::string label)
-{
-	pushLineToFileWithLocation("@", label);
-	pushLineToFile("0;JMP");
+	std::string str(compare);
+	str.append(";");
+	str.append(jump);
+	pushLineToFile(str);
 }
 
 void CodeWriter::insertLabel(std::string label)

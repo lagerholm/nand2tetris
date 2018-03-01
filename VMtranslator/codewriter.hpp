@@ -22,6 +22,7 @@ class CodeWriter
 	void handlePushCommand(std::string segment, int index);
 	void writeAdd(void);
 	void writeEq(void);
+	void writeLt(void);
 	void popStackValueToD(void);
 	void increaseStackPointer(void);
 	void decreaseStackPointer(void);
@@ -36,8 +37,7 @@ class CodeWriter
 	void pushLineToFile(std::string command);
 	void pushLineToFileWithLocation(std::string command, std::string location);
 	void subtractDWithPointer(void);
-	void jumpEqualsToLabel(std::string label);
-	void jumpToLabel(std::string label);
+	void jumpToLabel(std::string label, std::string compare, std::string jump);
 	void insertLabel(std::string label);
 	std::string generateNewLabel(void);
 };
