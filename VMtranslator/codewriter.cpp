@@ -103,7 +103,7 @@ void CodeWriter::writeEq(void)
 
 	// Handle true lable.
 	insertLabel(trueLabel);
-	storeToPointerFromLocation("SP", "-1");	// 0 is false.
+	storeToPointerFromLocation("SP", "-1");	// -1 is true.
 
 	// Handle end lable.
 	insertLabel(endLabel);
