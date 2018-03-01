@@ -2,7 +2,7 @@
 
 using namespace std;
 
-CodeWriter::CodeWriter(string output)
+CodeWriter::CodeWriter(string output):labelIndex(0)
 {
 	outputFile.open(output.c_str());
 }
@@ -17,6 +17,10 @@ void CodeWriter::writeArithmetic(std::string command)
 	if (command == "add")
 	{
 		writeAdd();
+	}
+	else if (command == "eq")
+	{
+		writeEq();
 	}
 }
 
@@ -49,7 +53,7 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 	{
 		// Access memory at SP and set it to index.
 		loadDFromAWithValue(index);
-		storeDToPointerFromLocation("SP");
+		storeToPointerFromLocation("SP", "D");
 		
 		// Increase SP.
 		increaseStackPointer();
@@ -74,71 +78,145 @@ void CodeWriter::writeAdd(void)
 	increaseStackPointer();
 }
 
+void CodeWriter::writeEq(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Put pointer value in D.
+	loadDFromPointer();
+
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Subtract D with value from pointer.
+	subtractDWithPointer();
+	std::string trueLabel(generateNewLabel());
+	jumpEqualsToLabel(trueLabel);
+
+	// No jump store false.
+	storeToPointerFromLocation("SP", "0");	// 0 is false.
+
+	// Go to end.
+	std::string endLabel(generateNewLabel());
+	jumpToLabel(endLabel);
+
+	// Handle true lable.
+	insertLabel(trueLabel);
+	storeToPointerFromLocation("SP", "-1");	// 0 is false.
+
+	// Handle end lable.
+	insertLabel(endLabel);
+	increaseStackPointer();
+}
+
 void CodeWriter::popStackValueToD(void)
 {
-	outputFile << "@SP" << std::endl;
-	outputFile << "M=M-1" << std::endl;
-	outputFile << "A=M" << std::endl;
-	outputFile << "D=M" << std::endl;
+	pushLineToFile("@SP");
+	pushLineToFile("M=M-1");
+	pushLineToFile("A=M");
+	pushLineToFile("D=M");
 }
 
 void CodeWriter::increaseStackPointer(void)
 {
-	outputFile << "@SP" << std::endl;
-	outputFile << "M=M+1" << std::endl;
+	pushLineToFile("@SP");
+	pushLineToFile("M=M+1");
 }
 
 void CodeWriter::decreaseStackPointer(void)
 {
-	outputFile << "@SP" << std::endl;
-	outputFile << "M=M-1" << std::endl;
+	pushLineToFile("@SP");
+	pushLineToFile("M=M-1");
 }
 
 void CodeWriter::storeDToLocation(std::string location)
 {
-	outputFile << "@" << location << std::endl;
-	outputFile << "M=D" << std::endl;
+	pushLineToFileWithLocation("@", location);
+	pushLineToFile("M=D");
 }
 
 void CodeWriter::loadDFromLocation(std::string location)
 {
-	outputFile << "@" << location << std::endl;
-	outputFile << "D=M" << std::endl;
+	pushLineToFileWithLocation("@", location);
+	pushLineToFile("D=M");
 }
 
 void CodeWriter::loadDFromAWithValue(int value)
 {
-	outputFile << "@" << value << std::endl;
-	outputFile << "D=A" << std::endl;
+	pushLineToFileWithLocation("@", std::to_string(value));
+	pushLineToFile("D=A");
 }
 
 void CodeWriter::loadDFromPointer(void)
 {
-	outputFile << "A=M" << std::endl;
-	outputFile << "D=M" << std::endl;
+	pushLineToFile("A=M");
+	pushLineToFile("D=M");
 }
 
-void CodeWriter::storeDToPointerFromLocation(std::string location)
+void CodeWriter::storeToPointerFromLocation(std::string location, std::string value)
 {
-	outputFile << "@" << location << std::endl;
-	outputFile << "A=M" << std::endl;
-	outputFile << "M=D" << std::endl;
+	pushLineToFileWithLocation("@", location);
+	pushLineToFile("A=M");
+	pushLineToFileWithLocation("M=", value);
 }
 
 void CodeWriter::storeDToPointer(void)
 {
-	outputFile << "A=M" << std::endl;
-	outputFile << "M=D" << std::endl;
+	pushLineToFile("A=M");
+	pushLineToFile("M=D");
 }
 
 void CodeWriter::addLocationWithD(std::string location)
 {
-	outputFile << "@" << location << std::endl;
-	outputFile << "M=D+M" << std::endl;
+	pushLineToFileWithLocation("@", location);
+	pushLineToFile("M=D+M");
 }
 
 void CodeWriter::addPointerWithD(void)
 {
-	outputFile << "A=M"  << std::endl;
-	outputFile << "M=D+M" << std::endl;
+	pushLineToFile("A=M");
+	pushLineToFile("M=D+M");
+}
+
+void CodeWriter::subtractDWithPointer(void)
+{
+	pushLineToFile("A=M");
+	pushLineToFile("D=D-M");
+}
+
+void CodeWriter::jumpEqualsToLabel(std::string label)
+{
+	pushLineToFileWithLocation("@", label);
+	pushLineToFile("D;JEQ");
+}
+
+void CodeWriter::jumpToLabel(std::string label)
+{
+	pushLineToFileWithLocation("@", label);
+	pushLineToFile("0;JMP");
+}
+
+void CodeWriter::insertLabel(std::string label)
+{
+	std::string str("(");
+	str.append(label);
+	str.append(")");
+	pushLineToFile(str);
+}
+
+void CodeWriter::pushLineToFile(std::string command)
+{
+	outputFile << command << std::endl;
+}
+
+void CodeWriter::pushLineToFileWithLocation(std::string command, std::string location)
+{
+	outputFile << command << location << std::endl;
+}
+
+std::string CodeWriter::generateNewLabel(void)
+{
+	std::string str("LABEL");
+	return str.append(std::to_string(labelIndex++));
 }
