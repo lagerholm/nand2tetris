@@ -38,6 +38,18 @@ void CodeWriter::writeArithmetic(std::string command)
 	{
 		writeGt();
 	}
+	else if (command == "and")
+	{
+		writeAnd();
+	}
+	else if (command == "or")
+	{
+		writeOr();
+	}
+	else if (command == "not")
+	{
+		writeNot();
+	}
 }
 
 void CodeWriter::writePushPop(CommandType commandType, std::string segment, int index)
@@ -140,6 +152,57 @@ void CodeWriter::writeLt(void)
 void CodeWriter::writeGt(void)
 {
 	writeCompareCommand("JLT");	// JLT is due to how we read the stack.
+}
+
+void CodeWriter::writeAnd(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Store pointer value to D.
+	loadDFromPointer();
+
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Add pointer with D.
+	andPointerWithD();
+
+	// Increase SP.
+	increaseStackPointer();
+}
+
+void CodeWriter::writeOr(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Store pointer value to D.
+	loadDFromPointer();
+
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Add pointer with D.
+	orPointerWithD();
+
+	// Increase SP.
+	increaseStackPointer();
+}
+
+void CodeWriter::writeNot(void)
+{
+	// Decrease stack pointer.
+	decreaseStackPointer();
+
+	// Store pointer value to D.
+	loadDFromPointer();
+
+	// Negate D and store to pointer.
+	storeToPointerFromLocation("SP", "!D");
+
+	// Increase SP.
+	increaseStackPointer();
 }
 
 void CodeWriter::writeCompareCommand(std::string comparison)
@@ -255,6 +318,18 @@ void CodeWriter::subtractDWithPointer(void)
 {
 	pushLineToFile("A=M");
 	pushLineToFile("D=D-M");
+}
+
+void CodeWriter::andPointerWithD(void)
+{
+	pushLineToFile("A=M");
+	pushLineToFile("M=D&M");
+}
+
+void CodeWriter::orPointerWithD(void)
+{
+	pushLineToFile("A=M");
+	pushLineToFile("M=D|M");
 }
 
 void CodeWriter::jumpToLabel(std::string label, std::string compare, std::string jump)

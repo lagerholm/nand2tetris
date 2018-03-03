@@ -26,6 +26,9 @@ class CodeWriter
 	void writeEq(void);
 	void writeLt(void);
 	void writeGt(void);
+	void writeAnd(void);
+	void writeOr(void);
+	void writeNot(void);
 	void writeCompareCommand(std::string comparison);
 	void popStackValueToD(void);
 	void increaseStackPointer(void);
@@ -42,6 +45,8 @@ class CodeWriter
 	void pushLineToFile(std::string command);
 	void pushLineToFileWithLocation(std::string command, std::string location);
 	void subtractDWithPointer(void);
+	void andPointerWithD(void);
+	void orPointerWithD(void);
 	void jumpToLabel(std::string label, std::string compare, std::string jump);
 	void insertLabel(std::string label);
 	std::string generateNewLabel(void);
