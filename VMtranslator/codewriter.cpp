@@ -61,7 +61,7 @@ void CodeWriter::writePushPop(CommandType commandType, std::string segment, int 
 			break;
 
 		case CommandType::C_POP:
-
+				handlePopCommand(segment, index);
 			break;
 		
 		default:
@@ -77,7 +77,19 @@ void CodeWriter::close(void)
 
 void CodeWriter::handlePushCommand(std::string segment, int index)
 {
-	if (segment == "constant")
+	if (segment == "argument")
+	{
+
+	}
+	else if (segment == "local")
+	{
+
+	}
+	else if (segment == "static")
+	{
+
+	}
+	else if (segment == "constant")
 	{
 		// Access memory at SP and set it to index.
 		loadDFromAWithValue(index);
@@ -85,6 +97,58 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 		
 		// Increase SP.
 		increaseStackPointer();
+	}
+	else if (segment == "this")
+	{
+
+	}
+	else if (segment == "that")
+	{
+
+	}
+	else if (segment == "pointer")
+	{
+
+	}
+	else if (segment == "temp")
+	{
+
+	}
+}
+
+void CodeWriter::handlePopCommand(std::string segment, int index)
+{
+	if (segment == "argument")
+	{
+		storeSegmentWithIndexToGpRegister("ARG", index, "R13");
+	}
+	else if (segment == "local")
+	{
+		storeSegmentWithIndexToGpRegister("LCL", index, "R13");
+	}
+	else if (segment == "this")
+	{
+		storeSegmentWithIndexToGpRegister("THIS", index, "R13");
+	}
+	else if (segment == "that")
+	{
+		storeSegmentWithIndexToGpRegister("THAT", index, "R13");
+	}
+	else if (segment == "static")
+	{
+
+	}
+	else if (segment == "constant")
+	{
+		// Makes no sense?
+	}
+	else if (segment == "pointer")
+	{
+
+	}
+	else if (segment == "temp")
+	{
+		// RAM[5-12]
 	}
 }
 
@@ -259,6 +323,13 @@ void CodeWriter::decreaseStackPointer(void)
 	pushLineToFile("M=M-1");
 }
 
+void CodeWriter::setAtoValue(std::string value)
+{
+	string str("@");
+	str.append(value);
+	pushLineToFile(str);
+}
+
 void CodeWriter::storeDToLocation(std::string location)
 {
 	pushLineToFileWithLocation("@", location);
@@ -294,6 +365,23 @@ void CodeWriter::storeDToPointer(void)
 {
 	pushLineToFile("A=M");
 	pushLineToFile("M=D");
+}
+
+void CodeWriter::storeSegmentWithIndexToGpRegister(std::string segment, int index, std::string gpRegister)
+{
+	loadDFromLocation(segment);
+
+	setAtoValue(to_string(index));
+
+	pushLineToFile("D=D+A");
+
+	storeDToLocation(gpRegister);
+
+	popStackValueToD();
+
+	setAtoValue(gpRegister);
+
+	storeDToPointer();
 }
 
 void CodeWriter::addLocationWithD(std::string location)

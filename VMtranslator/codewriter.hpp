@@ -20,6 +20,7 @@ class CodeWriter
 	std::string currentFileName;
 	int labelIndex;
 	void handlePushCommand(std::string segment, int index);
+	void handlePopCommand(std::string segment, int index);
 	void writeAdd(void);
 	void writeSub(void);
 	void writeNeg(void);
@@ -33,12 +34,14 @@ class CodeWriter
 	void popStackValueToD(void);
 	void increaseStackPointer(void);
 	void decreaseStackPointer(void);
+	void setAtoValue(std::string value);
 	void storeDToLocation(std::string location);
 	void loadDFromLocation(std::string location);
 	void loadDFromAWithValue(int value);
 	void loadDFromPointer(void);
 	void storeToPointerFromLocation(std::string location, std::string value);
 	void storeDToPointer(void);
+	void storeSegmentWithIndexToGpRegister(std::string segment, int index, std::string gpRegister);
 	void addLocationWithD(std::string location);
 	void addPointerWithD(void);
 	void subtractPointerWithD(void);
