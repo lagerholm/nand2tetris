@@ -32,6 +32,7 @@ class CodeWriter
 	void writeNot(void);
 	void writeCompareCommand(std::string comparison);
 	void popStackValueToD(void);
+	void pushDToStack(void);
 	void increaseStackPointer(void);
 	void decreaseStackPointer(void);
 	void setAtoValue(std::string value);
@@ -42,6 +43,7 @@ class CodeWriter
 	void storeToPointerFromLocation(std::string location, std::string value);
 	void storeDToPointer(void);
 	void storeSegmentWithIndexToGpRegister(std::string segment, int index, std::string gpRegister);
+	void pushFromSegmentWithIndex(std::string segment, int index);
 	void addLocationWithD(std::string location);
 	void addPointerWithD(void);
 	void subtractPointerWithD(void);

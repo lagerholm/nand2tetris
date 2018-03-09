@@ -79,11 +79,11 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 {
 	if (segment == "argument")
 	{
-
+		pushFromSegmentWithIndex("ARG", index);
 	}
 	else if (segment == "local")
 	{
-
+		pushFromSegmentWithIndex("LCL", index);
 	}
 	else if (segment == "static")
 	{
@@ -100,11 +100,11 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 	}
 	else if (segment == "this")
 	{
-
+		pushFromSegmentWithIndex("THIS", index);
 	}
 	else if (segment == "that")
 	{
-
+		pushFromSegmentWithIndex("THAT", index);
 	}
 	else if (segment == "pointer")
 	{
@@ -112,7 +112,9 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 	}
 	else if (segment == "temp")
 	{
-
+		// RAM[5-12]
+		loadDFromLocation(to_string(5+index));
+		pushDToStack();
 	}
 }
 
@@ -149,6 +151,9 @@ void CodeWriter::handlePopCommand(std::string segment, int index)
 	else if (segment == "temp")
 	{
 		// RAM[5-12]
+		popStackValueToD();
+
+		storeDToLocation(to_string(5+index));
 	}
 }
 
@@ -311,6 +316,13 @@ void CodeWriter::popStackValueToD(void)
 	pushLineToFile("D=M");
 }
 
+void CodeWriter::pushDToStack(void)
+{
+	setAtoValue("SP");
+	storeDToPointer();
+	increaseStackPointer();
+}
+
 void CodeWriter::increaseStackPointer(void)
 {
 	pushLineToFile("@SP");
@@ -382,6 +394,15 @@ void CodeWriter::storeSegmentWithIndexToGpRegister(std::string segment, int inde
 	setAtoValue(gpRegister);
 
 	storeDToPointer();
+}
+
+void CodeWriter::pushFromSegmentWithIndex(std::string segment, int index)
+{
+	loadDFromLocation(segment);
+	setAtoValue(to_string(index));
+	pushLineToFile("A=D+A");
+	pushLineToFile("D=M");
+	pushDToStack();
 }
 
 void CodeWriter::addLocationWithD(std::string location)
