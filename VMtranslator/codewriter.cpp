@@ -108,7 +108,22 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 	}
 	else if (segment == "pointer")
 	{
-
+		if(index == 0)
+		{
+			//  Puh this to stack.
+			loadDFromLocation("THIS");
+			pushDToStack();
+		}
+		else if(index == 1)
+		{
+			//  Puh that to stack.
+			loadDFromLocation("THAT");
+			pushDToStack();
+		}
+		else
+		{
+			// Throw error;
+		}
 	}
 	else if (segment == "temp")
 	{
@@ -146,7 +161,22 @@ void CodeWriter::handlePopCommand(std::string segment, int index)
 	}
 	else if (segment == "pointer")
 	{
-
+		if(index == 0)
+		{
+			// Pop stack to this.
+			popStackValueToD();
+			storeDToLocation("THIS");
+		}
+		else if(index == 1)
+		{
+			// Pop stack to that.
+			popStackValueToD();
+			storeDToLocation("THAT");
+		}
+		else
+		{
+			// Throw error;
+		}
 	}
 	else if (segment == "temp")
 	{

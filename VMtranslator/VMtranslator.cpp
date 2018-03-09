@@ -12,9 +12,10 @@ int main(int argc, char* argv[])
 
 	//Parser parser("ProjectFiles/SimpleAdd/SimpleAdd.vm");
 	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
-	Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
+	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
+	Parser parser("ProjectFiles/MemoryAccess/PointerTest/PointerTestTest.vm");
 
-	CodeWriter codeWriter("BasicTest.asm");
+	CodeWriter codeWriter("PointerTest.asm");
 
 	while(moreCommands)
 	{
