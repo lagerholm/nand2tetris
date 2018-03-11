@@ -87,7 +87,9 @@ void CodeWriter::handlePushCommand(std::string segment, int index)
 	}
 	else if (segment == "static")
 	{
-
+		// RAM[16-255]
+		loadDFromLocation(to_string(16+index));
+		pushDToStack();
 	}
 	else if (segment == "constant")
 	{
@@ -153,7 +155,9 @@ void CodeWriter::handlePopCommand(std::string segment, int index)
 	}
 	else if (segment == "static")
 	{
-
+		// RAM[16-255]
+		popStackValueToD();
+		storeDToLocation(to_string(16+index));
 	}
 	else if (segment == "constant")
 	{
@@ -182,7 +186,6 @@ void CodeWriter::handlePopCommand(std::string segment, int index)
 	{
 		// RAM[5-12]
 		popStackValueToD();
-
 		storeDToLocation(to_string(5+index));
 	}
 }

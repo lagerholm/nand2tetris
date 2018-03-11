@@ -13,9 +13,9 @@ int main(int argc, char* argv[])
 	//Parser parser("ProjectFiles/SimpleAdd/SimpleAdd.vm");
 	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
-	Parser parser("ProjectFiles/MemoryAccess/PointerTest/PointerTestTest.vm");
+	Parser parser("ProjectFiles/MemoryAccess/StaticTest/StaticTest.vm");
 
-	CodeWriter codeWriter("PointerTest.asm");
+	CodeWriter codeWriter("StaticTest.asm");
 
 	while(moreCommands)
 	{
