@@ -228,7 +228,11 @@ void Parser::findArguments(std::string s)
 		if((pos = s.find(delimiter)) != string::npos)
 		{
 			argument1 = s.substr(0, pos);
+			argument2 = stoi(s.substr(pos, s.size()), nullptr, 0);
 		}
-		argument2 = stoi(s.substr(pos, s.size()), nullptr, 0);
+		else
+		{
+			argument1 = s;
+		}
 	}
 }

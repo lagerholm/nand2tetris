@@ -13,9 +13,11 @@ int main(int argc, char* argv[])
 	//Parser parser("ProjectFiles/SimpleAdd/SimpleAdd.vm");
 	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
-	Parser parser("ProjectFiles/MemoryAccess/StaticTest/StaticTest.vm");
+	//Parser parser("ProjectFiles/MemoryAccess/StaticTest/StaticTest.vm");
+	Parser parser("ProjectFiles/8/ProgramFlow/BasicLoop/BasicLoop.vm");
 
-	CodeWriter codeWriter("StaticTest.asm");
+
+	CodeWriter codeWriter("ProjectFiles/8/ProgramFlow/BasicLoop/BasicLoop.asm");
 
 	while(moreCommands)
 	{
@@ -42,10 +44,33 @@ int main(int argc, char* argv[])
 				{
 					codeWriter.writePushPop(commandType, arg1, arg2);
 				}
-
-				if (parser.isCurrentCommandArithmetic())
+				else if (parser.isCurrentCommandArithmetic())
 				{
 					codeWriter.writeArithmetic(arg1);
+				}
+				else if (commandType == CommandType::C_LABEL)
+				{
+					codeWriter.writeLabel(arg1);
+				}
+				else if (commandType == CommandType::C_GOTO)
+				{
+					codeWriter.writeGoto(arg1);
+				}
+				else if (commandType == CommandType::C_IF)
+				{
+					codeWriter.writeIf(arg1);
+				}
+				else if (commandType == CommandType::C_FUNCTION)
+				{
+					codeWriter.writeCall(arg1, arg2);
+				}
+				else if (commandType == CommandType::C_RETURN)
+				{
+					codeWriter.writeReturn();
+				}
+				else if (commandType == CommandType::C_CALL)
+				{
+					codeWriter.writeFunction(arg1, arg2);
 				}
 			}
 		}

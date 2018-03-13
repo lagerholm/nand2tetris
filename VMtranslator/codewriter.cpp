@@ -70,37 +70,54 @@ void CodeWriter::writePushPop(CommandType commandType, std::string segment, int 
 	}
 }
 
-void writeInit(void)
+void CodeWriter::writeInit(void)
 {
 
 }
 
-void writeLabel(std::string label)
+void CodeWriter::writeLabel(std::string label)
+{
+	std::string str("(");
+	str.append(label);
+	str.append(")");
+	pushLineToFile(str);
+}
+
+void CodeWriter::writeGoto(std::string label)
 {
 
 }
 
-void writeGoto(std::string label)
+void CodeWriter::writeIf(std::string label)
+{
+	// Pop stack to D.
+	popStackValueToD();
+	// Jump D eq 0 to Label+End
+	std::string labelStr(label);
+	labelStr.append("_END");
+	std::string str("(");
+	str.append(labelStr);
+	str.append(")");
+	jumpToLabel(labelStr, "D", "JEQ");
+
+	// Jump to Label
+	jumpToLabel(label, "0", "JMP");
+
+	// Write Label+End
+	pushLineToFile(str);
+}
+
+void CodeWriter::writeCall(std::string functionName, int numArgs)
 {
 
 }
 
-void writeIf(std::string label)
+void CodeWriter::writeReturn(void)
 {
 
 }
 
-void writeCall(std::string functionName, int numArgs)
-{
-
-}
-
-void writeReturn(void)
-{
-
-}
-
-void writeFunction(std::string functionName, int numLocals)
+void CodeWriter::writeFunction(std::string functionName, int numLocals)
 {
 
 }
