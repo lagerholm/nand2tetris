@@ -14,10 +14,10 @@ int main(int argc, char* argv[])
 	//Parser parser("ProjectFiles/StackArithmetic/StackTest/StackTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/StaticTest/StaticTest.vm");
-	Parser parser("ProjectFiles/8/ProgramFlow/BasicLoop/BasicLoop.vm");
+	//Parser parser("ProjectFiles/8/ProgramFlow/BasicLoop/BasicLoop.vm");
+	Parser parser("ProjectFiles/8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm");
 
-
-	CodeWriter codeWriter("ProjectFiles/8/ProgramFlow/BasicLoop/BasicLoop.asm");
+	CodeWriter codeWriter("ProjectFiles/8/ProgramFlow/FibonacciSeries/FibonacciSeries.asm");
 
 	while(moreCommands)
 	{

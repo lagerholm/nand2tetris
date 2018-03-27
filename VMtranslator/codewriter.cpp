@@ -85,7 +85,7 @@ void CodeWriter::writeLabel(std::string label)
 
 void CodeWriter::writeGoto(std::string label)
 {
-
+	jumpToLabel(label, "0", "JMP");
 }
 
 void CodeWriter::writeIf(std::string label)
