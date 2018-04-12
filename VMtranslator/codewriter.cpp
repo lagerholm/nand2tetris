@@ -114,12 +114,53 @@ void CodeWriter::writeCall(std::string functionName, int numArgs)
 
 void CodeWriter::writeReturn(void)
 {
-
+	// *ARG = pop()
+	popStackValueToD();
+	storeToPointerFromLocation("ARG", "D");
+	// SP = ARG+1
+	loadDFromLocation("ARG");
+	pushLineToFile("D=D+1");
+	storeDToLocation("SP");
+	// frame (R13) = lcl
+	loadDFromLocation("LCL");
+	storeDToLocation("R13");
+	// THAT = *(frame-1)
+	loadDFromLocation("R13");
+	pushLineToFile("D=D-1");
+	storeToSymbolFromPointer("THAT", "R13");
+	// THIS = *(frame-2)
+	loadDFromLocation("R13");
+	pushLineToFile("D=D-1");
+	storeToSymbolFromPointer("THIS", "R13");
+	// ARG = *(frame-3)
+	loadDFromLocation("R13");
+	pushLineToFile("D=D-1");
+	storeToSymbolFromPointer("ARG", "R13");
+	// LCL = *(frame-4)
+	loadDFromLocation("R13");
+	pushLineToFile("D=D-1");
+	storeToSymbolFromPointer("LCL", "R13");
+	// ret = *(frame-5)
+	loadDFromLocation("R13");
+	pushLineToFile("D=D-1");
+	pushLineToFile("A=D");
+	pushLineToFile("D=M");
+	// goto ret
+	pushLineToFile("A=D");
+	pushLineToFile("0;JMP");
 }
 
 void CodeWriter::writeFunction(std::string functionName, int numLocals)
 {
-
+	// Write function name label.
+	writeLabel(functionName);
+	// Push 0 to stack numLocals times.
+	for(int i = 0; i < numLocals; i++)
+	{
+		loadDFromAWithValue(0);
+		storeToPointerFromLocation("SP", "D");
+		increaseStackPointer();
+	}
 }
 
 void CodeWriter::close(void)
@@ -479,6 +520,14 @@ void CodeWriter::storeSegmentWithIndexToGpRegister(std::string segment, int inde
 	setAtoValue(gpRegister);
 
 	storeDToPointer();
+}
+
+void CodeWriter::storeToSymbolFromPointer(std::string symbol, std::string pointer)
+{
+	storeDToLocation(pointer);
+	pushLineToFile("A=D");
+	pushLineToFile("D=M");
+	storeDToLocation(symbol);
 }
 
 void CodeWriter::pushFromSegmentWithIndex(std::string segment, int index)

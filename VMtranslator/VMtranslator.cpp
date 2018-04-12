@@ -15,9 +15,10 @@ int main(int argc, char* argv[])
 	//Parser parser("ProjectFiles/MemoryAccess/BasicTest/BasicTest.vm");
 	//Parser parser("ProjectFiles/MemoryAccess/StaticTest/StaticTest.vm");
 	//Parser parser("ProjectFiles/8/ProgramFlow/BasicLoop/BasicLoop.vm");
-	Parser parser("ProjectFiles/8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm");
+	//Parser parser("ProjectFiles/8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm");
+	Parser parser("ProjectFiles/8/FunctionCalls/SimpleFunction/SimpleFunction.vm");
 
-	CodeWriter codeWriter("ProjectFiles/8/ProgramFlow/FibonacciSeries/FibonacciSeries.asm");
+	CodeWriter codeWriter("ProjectFiles/8/FunctionCalls/SimpleFunction/SimpleFunction.asm");
 
 	while(moreCommands)
 	{
@@ -60,18 +61,18 @@ int main(int argc, char* argv[])
 				{
 					codeWriter.writeIf(arg1);
 				}
-				else if (commandType == CommandType::C_FUNCTION)
+				else if (commandType == CommandType::C_CALL)
 				{
 					codeWriter.writeCall(arg1, arg2);
 				}
-				else if (commandType == CommandType::C_RETURN)
-				{
-					codeWriter.writeReturn();
-				}
-				else if (commandType == CommandType::C_CALL)
+				else if (commandType == CommandType::C_FUNCTION)
 				{
 					codeWriter.writeFunction(arg1, arg2);
 				}
+			}
+			else
+			{
+				codeWriter.writeReturn();
 			}
 		}
 	}
